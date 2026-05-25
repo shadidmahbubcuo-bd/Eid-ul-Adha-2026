@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Block ALL direct client access to users collection
+    // Only Firebase Admin SDK (server-side) can read/write
+    match /users/{userId} {
+      allow read: if false;
+      allow write: if false;
+    }
+
+    // Deny all other paths by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
